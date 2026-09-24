@@ -1,7 +1,7 @@
 schema: xgc2.product.v1
 id: xgc2-planner
 name: XGC2 Planner
-version: 1.1.0-12
+version: 1.1.0-13
 kind: ros1-apt
 summary: ROS1 planner packages including GCOPTER, JPS3D, CERLAB UAV Autonomy, Intent-MPC,
   MADER, Robust MADER, EGO-Planner, and Fast-Planner.
