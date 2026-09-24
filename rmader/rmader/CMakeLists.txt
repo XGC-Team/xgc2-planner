@@ -61,6 +61,7 @@ target_link_libraries(octopus_search PUBLIC ${catkin_LIBRARIES})
 
 if(USE_GUROBI)
 
+	message(STATUS "RMADER backend: Gurobi (USE_GUROBI=ON)")
 	find_package(GUROBI REQUIRED)
 
 	if(GUROBI_FOUND)
@@ -83,6 +84,7 @@ if(USE_GUROBI)
 	target_link_libraries(test_gurobi ${catkin_LIBRARIES} utils ${GUROBI_LIBRARIES} solver)
 
 else()
+	message(STATUS "RMADER backend: NLopt (USE_GUROBI=OFF)")
 	find_package(NLOPT REQUIRED)
 
 	add_library(solver STATIC src/solver_nlopt.cpp src/bspline_utils.cpp src/nlopt_utils.cpp )
@@ -117,7 +119,8 @@ add_executable(test_stuck_exam_octopus_search src/examples/test_stuck_exam_octop
 add_dependencies(test_stuck_exam_octopus_search ${catkin_EXPORTED_TARGETS} )
 target_link_libraries(test_stuck_exam_octopus_search ${catkin_LIBRARIES} utils cgal_utils) 
 
-unset(USE_GUROBI CACHE) # To avoid https://stackoverflow.com/questions/22481647/cmake-if-else-with-option
+# Keep USE_GUROBI in CMakeCache.txt: a bare reconfigure must not change the backend.
+# Use separate build spaces when comparing backends; pass -DUSE_GUROBI explicitly to change it.
 
 install(TARGETS ${PROJECT_NAME}_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
